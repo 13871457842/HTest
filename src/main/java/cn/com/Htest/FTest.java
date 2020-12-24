@@ -1,5 +1,7 @@
 package cn.com.Htest;
 
+import org.junit.Test;
+
 import java.util.*;
 
 public class FTest {
@@ -7,7 +9,7 @@ public class FTest {
     public static Map digitsMap = null;
 
     /**
-     * 定义数字字母集合
+     * define an array
      */
     public static void initDigitsMap() {
         digitsMap = new HashMap<String, List<String>>();
@@ -24,17 +26,17 @@ public class FTest {
     }
 
     /**
-     * 数字转化为字母
+     * numbers are converted to letters
      */
     public static void digitsToLetters() {
         Scanner sc = new Scanner(System.in);
         String digits = "";
         while (true) {
-            System.out.println("请输入0-99的数字:");
+            System.out.println("please enter the number 0-99:");
             digits = sc.next();
             break;
         }
-        //定义输出文案
+        //define output copy
         StringBuilder arrInput = new StringBuilder("Input:arr[] ={");
         String[] arrStr = digits.split("");
         List<String[]> dataList = new ArrayList<String[]>();
@@ -44,7 +46,7 @@ public class FTest {
             if (i < arrStr.length - 1) {
                 arrInput.append(",");
             }
-            //拿到每个数字对应的字母数组并存入集合
+            //take an array of letters for each number and store it in the collection
             List<String> lettersList = (List<String>) digitsMap.get(arrStr[i]);
             if (lettersList.size() > 0) {
                 String[] letterArr = (String[]) lettersList.toArray();
@@ -53,12 +55,12 @@ public class FTest {
         }
         arrInput.append("}");
 
-        //递归实现多数组排列组合，并返回最终的排列集合
+        //recursively implements most group permutations and returns the final permutation set
         List<String[]> resultList = convertToLetters(dataList, 0, null);
-        //打印输入内容
+        //print input
         System.out.println(arrInput.toString());
         System.out.print("Output:");
-        //打印输出排列组合结果
+        //print and output permutation and combination results
         for (int i = 0; i < resultList.size(); i++) {
             String[] letterArr = resultList.get(i);
             System.out.print(" ");
@@ -69,20 +71,20 @@ public class FTest {
     }
 
     /**
-     * 递归方法
-     * @param dataList 字母数组集合
+     * recursion method
+     * @param dataList alphanumeric array
      * @param index
      * @param resultList
      * @return
      */
     private static List<String[]> convertToLetters(List<String[]> dataList, int index, List<String[]> resultList) {
-        //结束递归
+        //end of the recursive
         if (index == dataList.size()) {
             return resultList;
         }
 
         List<String[]> resultList0 = new ArrayList<String[]>();
-        //第一列数组默认有多少个字母就添加多少个排列数据
+        //the default of the first column array is to add as many permutations as the number of letters
         if (index == 0) {
             String[] dataArr = dataList.get(0);
             for (String s : dataArr) {
@@ -92,22 +94,15 @@ public class FTest {
             String[] dataArr = dataList.get(index);
             for (String[] dataArr0 : resultList) {
                 for (String s : dataArr) {
-                    //数组扩容
+                    //array capacity
                     String[] dataArrCopy = new String[dataArr0.length + 1];
                     System.arraycopy(dataArr0, 0, dataArrCopy, 0, dataArr0.length);
                     dataArrCopy[dataArrCopy.length - 1] = s;
-                    //重新组装返回结果集
+                    //reassemble returns the result set
                     resultList0.add(dataArrCopy);
                 }
             }
         }
         return convertToLetters(dataList, ++index, resultList0);
-    }
-
-    public static void main(String[] args) {
-        //定义数字_字母集合
-        initDigitsMap();
-        //数字转化字母
-        digitsToLetters();
     }
 }
